@@ -1,0 +1,26 @@
+with key'A': YNQQN
+with key'B': ZORRO
+with key'C':  PSSP
+with key'D': .QTTQ
+with key'E': ,RUUR
+with key'F': ;SVVS
+with key'G': :TWWT
+with key'H': "UXXU
+with key'I': 'VYYV
+with key'J': XWZZW
+with key'K': JX  X
+with key'L': JY..Y
+with key'M': JZ,,Z
+with key'N': J ;; 
+with key'O': J.::.
+with key'P': J,"",
+with key'Q': J;'';
+with key'R': J:PP:
+with key'S': J"RR"
+with key'T': J'RR'
+with key'U': JMRRM
+with key'V': JURRU
+with key'W': JURRU
+with key'X': JURRU
+with key'Y': JURRU
+with key'Z': JURRU

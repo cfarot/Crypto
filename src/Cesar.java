@@ -116,6 +116,50 @@ public class Cesar implements ICipher {
 			e.printStackTrace();
 		}
 	}
+	
+	public void brutForce(File encoded){
+		
+		File myKey = new File("keyTry.txt");
+		File brutForce = new File("brutForceHack.txt");
+		String allBrutForceDecode = "";
+		String keysPossible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		FileWriter fw;
+		for(int i=0; i<keysPossible.length(); i++){
+			String keySelect = String.valueOf(keysPossible.charAt(i));
+			try {
+				fw = new FileWriter(myKey.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(keySelect);
+				bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			decode(encoded, myKey, brutForce);
+			
+			String decodeBrutForce = "";
+			BufferedReader br = null;
+			try {
+
+				br = new BufferedReader(new FileReader(brutForce));
+				decodeBrutForce = br.readLine();
+				br.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+			allBrutForceDecode += "with key'"+keySelect+"': "+decodeBrutForce+"\n";
+		}
+		
+		try {
+			fw = new FileWriter(brutForce.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(allBrutForceDecode);
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private void getTranslation(String key){
 		

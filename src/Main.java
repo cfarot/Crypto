@@ -28,5 +28,6 @@ public class Main {
 		c.generateKey(key);
 		c.encode(message, key, encoded);
 		c.decode(encoded, key, decoded);
+		c.brutForce(encoded);
 	}
 }
