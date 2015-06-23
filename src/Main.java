@@ -8,7 +8,7 @@ public class Main {
 		MonoEncodedAttack attack = new MonoEncodedAttack();
 		
 		File key = new File("maCle.txt");
-		File message = new File("message.txt");
+		File message = new File("mess.txt");
 		File encoded = new File("encoded.txt");
 		File decoded = new File("decoded.txt");
 		File keyFound = new File("keyFound.txt");
