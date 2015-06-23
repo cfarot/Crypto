@@ -120,7 +120,7 @@ public class Cesar implements ICipher {
 	public void brutForce(File encoded){
 		
 		File myKey = new File("keyTry.txt");
-		File brutForce = new File("brutForceHack.txt");
+		File brutForce = new File("brutForceHackCesar.txt");
 		String allBrutForceDecode = "";
 		String keysPossible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		FileWriter fw;
