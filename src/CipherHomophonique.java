@@ -1,6 +1,9 @@
-import java.awt.AlphaComposite;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,10 +14,21 @@ public class CipherHomophonique implements ICipher{
 
 	private String frequence = " EAISRNTLUODCPMBHVFG,.'QYXJKWZ;:\"";
 	private String lettresAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ .,;:\"'";
+	Map<String, byte[]> translation;
+	boolean encode = true;
 	
 	@Override
 	public File encode(File message, File key, File encoded) {
-		// TODO Auto-generated method stub
+		
+		try {
+			Path path = Paths.get(key.getPath());
+			byte[] data = Files.readAllBytes(path);
+			getTranslation(data);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
@@ -22,6 +36,26 @@ public class CipherHomophonique implements ICipher{
 	public File decode(File crypted, File key, File decoded) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+private void getTranslation(byte[] allBytes){
+		
+		translation = new HashMap<String, byte[]>();
+		int nbBytes = 1;
+		int indiceLettre = 0;
+		for(int i = 0; i<allBytes.length; i+=nbBytes){
+			if(allBytes[0] != 0){
+				nbBytes = allBytes[i];
+				byte [] tabByteLetter = new byte[nbBytes];
+				int indiceTabByteLetter = 0;
+				for(int j = i+1; j<nbBytes; j++){
+					tabByteLetter[indiceTabByteLetter] = allBytes[j];
+					indiceTabByteLetter++;
+				}
+				translation.put(String.valueOf(lettresAlphabet.charAt(indiceLettre)), tabByteLetter);
+			}
+			indiceLettre++;
+		}
 	}
 
 	@Override
@@ -58,16 +92,16 @@ public class CipherHomophonique implements ICipher{
 				keyHomophonic += nbByte+valuesLetter[k];
 			}
 		}
+		keyHomophonic += "0";
 		
-		/*try {
-		  
+		try {
 		    FileOutputStream fos = new FileOutputStream(myKey);
-		    fos.write( stringOut.getBytes() ); //On parse le contenu de la chaîne qu'on converti d'abord en variable de type byte
-		    fos.close(); //Fermeture du fichier
+		    fos.write( keyHomophonic.getBytes()); 
+		    fos.close(); 
 		} catch(Exception e) {
 		    e.printStackTrace();
-		}*/
-		System.out.println(mapCaractereListByte);
+		}
+		
 		
 	}
 

@@ -35,9 +35,12 @@ public class Main {
 		c.brutForce(encodedCesar);*/
 		
 		File keyHomophonique = new File("keyHomophonique.txt");
+		File messageHomophonique = new File("messageCesar.txt");
+		File encodedHomophonique = new File("encodedHomophonique.txt");
 		
 		ICipher homophonique = new CipherHomophonique();
 		homophonique.generateKey(keyHomophonique);
+		homophonique.encode(messageHomophonique, keyHomophonique, encodedHomophonique);
 		
 	}
 }
