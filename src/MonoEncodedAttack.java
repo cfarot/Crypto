@@ -15,8 +15,8 @@ import java.util.Map.Entry;
 
 public class MonoEncodedAttack {
 
-	private String frequence = "INEA, STODULCMPHBFGVR.'QYXJKWZ;:\"";
-	//private String frequence = " EAISRNTLUODCPMBHVFG,.'QYXJKWZ;:\""; --frequence fichier mess.txt
+	//private String frequence = "INEA, STODULCMPHBFGVR.'QYXJKWZ;:\"";
+	private String frequence = " EAISRNTLUODCPMBHVFG,.'QYXJKWZ;:\"";
 	//private String frequence = "EASINRTOLUDCMP GBVHF,.'QYXJKWZ;:\"";
 	
 	private String lettresAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ .,;:\"'";

@@ -4,7 +4,7 @@ import java.io.File;
 public class Main {
 	public static void main(String[] args) {
 		
-		ICipher cipher = new MonoCipher();
+		/*ICipher cipher = new MonoCipher();
 		MonoEncodedAttack attack = new MonoEncodedAttack();
 		
 		File keyMonoCipher = new File("maCle.txt");
@@ -32,6 +32,12 @@ public class Main {
 		c.generateKey(keyCesar);
 		c.encode(messageCesar, keyCesar, encodedCesar);
 		c.decode(encodedCesar, keyCesar, decodedCesar);
-		c.brutForce(encodedCesar);
+		c.brutForce(encodedCesar);*/
+		
+		File keyHomophonique = new File("keyHomophonique.txt");
+		
+		ICipher homophonique = new CipherHomophonique();
+		homophonique.generateKey(keyHomophonique);
+		
 	}
 }
