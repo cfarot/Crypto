@@ -37,10 +37,12 @@ public class Main {
 		File keyHomophonique = new File("keyHomophonique.txt");
 		File messageHomophonique = new File("messageCesar.txt");
 		File encodedHomophonique = new File("encodedHomophonique.txt");
+		File decodedHomophonique = new File("decodedHomophonique.txt");
 		
 		ICipher homophonique = new CipherHomophonique();
 		homophonique.generateKey(keyHomophonique);
 		homophonique.encode(messageHomophonique, keyHomophonique, encodedHomophonique);
+		homophonique.decode(encodedHomophonique, keyHomophonique, decodedHomophonique);
 		
 	}
 }

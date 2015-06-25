@@ -1,5 +1,9 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,48 +18,99 @@ public class CipherHomophonique implements ICipher{
 
 	private String frequence = " EAISRNTLUODCPMBHVFG,.'QYXJKWZ;:\"";
 	private String lettresAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ .,;:\"'";
-	Map<String, byte[]> translation;
+	
+	Map<String, byte[]> translationEncode = new HashMap<String, byte[]>();
+	Map<Integer, String> translationDecode = new HashMap<Integer, String>();
+	
+	//Map<String, Integer>
 	boolean encode = true;
 	
 	@Override
 	public File encode(File message, File key, File encoded) {
 		
 		try {
-			Path path = Paths.get(key.getPath());
-			byte[] data = Files.readAllBytes(path);
-			getTranslation(data);
+			Path pathKey = Paths.get(key.getPath());
+			byte[] dataKey = Files.readAllBytes(pathKey);
+			getTranslation(dataKey);
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			if(encode){
+			String messageLine= "";
+			BufferedReader br = new BufferedReader(new FileReader(message));
 		
-		return null;
+			FileOutputStream fos = new FileOutputStream(encoded);
+				while((messageLine = br.readLine()) != null){
+					messageLine = messageLine.toUpperCase();
+				 
+						for(int j = 0; j<messageLine.length(); j++){	
+							int indice = (int) (Math.random() * (translationEncode.get(String.valueOf(messageLine.charAt(j))).length-1));
+							byte valuesLetter = translationEncode.get(String.valueOf(messageLine.charAt(j)))[indice];
+							fos.write(valuesLetter);	
+						}
+					
+				
+				}
+			
+				fos.close(); 
+				br.close();
+			}
+			else{
+				Path pathFileEncoded = Paths.get(message.getPath());
+				byte[] dataMessageEncoded = Files.readAllBytes(pathFileEncoded);
+				
+				String messageDecoded = "";
+				for(int j = 0; j<dataMessageEncoded.length; j++){
+					messageDecoded += translationDecode.get((byte) dataMessageEncoded[j] & 0xff);
+				}
+				
+				FileWriter fw = new FileWriter(encoded.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				
+				bw.write(messageDecoded);	
+				
+				bw.close();
+			}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+			return encoded;		
 	}
 
 	@Override
 	public File decode(File crypted, File key, File decoded) {
-		// TODO Auto-generated method stub
-		return null;
+		encode = false;
+		return encode(crypted, key, decoded);
 	}
 
 private void getTranslation(byte[] allBytes){
 		
-		translation = new HashMap<String, byte[]>();
+		
 		int nbBytes = 1;
 		int indiceLettre = 0;
-		for(int i = 0; i<allBytes.length; i+=nbBytes){
-			if(allBytes[0] != 0){
-				nbBytes = allBytes[i];
+		
+		for(int i = 0; i<allBytes.length; i+=(nbBytes+1)){
+			if(allBytes[i] != 0){
+				
+				nbBytes = (byte) allBytes[i] & 0xff;
 				byte [] tabByteLetter = new byte[nbBytes];
 				int indiceTabByteLetter = 0;
-				for(int j = i+1; j<nbBytes; j++){
+				for(int j = i+1; j<(nbBytes+i); j++){
 					tabByteLetter[indiceTabByteLetter] = allBytes[j];
 					indiceTabByteLetter++;
 				}
-				translation.put(String.valueOf(lettresAlphabet.charAt(indiceLettre)), tabByteLetter);
+				//System.out.println(lettresAlphabet.charAt(indiceLettre));
+				translationEncode.put(String.valueOf(lettresAlphabet.charAt(indiceLettre)), tabByteLetter);
+				for(int k=0; k<tabByteLetter.length; k++){
+					translationDecode.put((byte) tabByteLetter[k] & 0xff, String.valueOf(lettresAlphabet.charAt(indiceLettre)));
+				}
+				
 			}
 			indiceLettre++;
 		}
+		
+		System.out.println(translationDecode.get(0));
+		System.out.println(translationDecode.get(1));
+		System.out.println(translationDecode.get(2));
 	}
 
 	@Override
@@ -84,24 +139,22 @@ private void getTranslation(byte[] allBytes){
 			mapCaractereListByte.put(frequence.charAt(i), keys[i]);
 		}
 		
-		String keyHomophonic = "";
+		try{
+		 FileOutputStream fos = new FileOutputStream(myKey);
+		 
 		for(int j = 0; j<lettresAlphabet.length(); j++){
 			byte[] valuesLetter = mapCaractereListByte.get(lettresAlphabet.charAt(j));
 			int nbByte = valuesLetter.length;
-			for(int k = 0; k<valuesLetter.length; k++){
-				keyHomophonic += nbByte+valuesLetter[k];
-			}
+			fos.write(nbByte);
+			fos.write(valuesLetter);
 		}
-		keyHomophonic += "0";
 		
-		try {
-		    FileOutputStream fos = new FileOutputStream(myKey);
-		    fos.write( keyHomophonic.getBytes()); 
-		    fos.close(); 
+		fos.write(0);
+		fos.close(); 
+		
 		} catch(Exception e) {
 		    e.printStackTrace();
-		}
-		
+		}	
 		
 	}
 

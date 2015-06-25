@@ -50,10 +50,10 @@ public class MonoCipher implements ICipher {
 						else
 							messageLineEncoded += messageLine.charAt(j);
 					}
-					//System.out.println(messageLineEncoded);
 					bw.write(messageLineEncoded+"\n");		
 			}
 			bw.close();
+			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
