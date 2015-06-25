@@ -34,15 +34,24 @@ public class Main {
 		c.decode(encodedCesar, keyCesar, decodedCesar);
 		c.brutForce(encodedCesar);*/
 		
-		File keyHomophonique = new File("keyHomophonique.txt");
+		/*File keyHomophonique = new File("keyHomophonique.txt");
 		File messageHomophonique = new File("messageCesar.txt");
 		File encodedHomophonique = new File("encodedHomophonique.txt");
-		File decodedHomophonique = new File("decodedHomophonique.txt");
 		
 		ICipher homophonique = new CipherHomophonique();
 		homophonique.generateKey(keyHomophonique);
-		homophonique.encode(messageHomophonique, keyHomophonique, encodedHomophonique);
-		homophonique.decode(encodedHomophonique, keyHomophonique, decodedHomophonique);
+		homophonique.encode(messageHomophonique, keyHomophonique, encodedHomophonique);*/
+		
+		File keyVigener = new File("keyVigener.txt");
+		File messageVigener = new File("messageVigener.txt");
+		File encodedVigener = new File("encodedVigener.txt");
+		File decodedVigener = new File("decodedVigener.txt");
+		
+		ICipher vigenerCipher = new VigenerCipher();
+		vigenerCipher.generateKey(keyVigener);
+		vigenerCipher.encode(messageVigener, keyVigener, encodedVigener);
+		vigenerCipher.decode(encodedVigener, keyVigener, decodedVigener);
+		
 		
 	}
 }
